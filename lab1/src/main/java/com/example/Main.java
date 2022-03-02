@@ -7,8 +7,6 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        LOG.info("Application started");
-        System.out.println("Hello, world!");
-        LOG.info("Application finished");
+        new BZipParser().parse("RU-NVS.osm.bz2");
     }
 }
