@@ -3,10 +3,9 @@ package com.example;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.InputStreamReader;
 
-public class StAXProcessor implements AutoCloseable{
+public class StAXProcessor implements AutoCloseable {
 
     private static final XMLInputFactory FACTORY = XMLInputFactory.newInstance();
     private final XMLEventReader reader;
