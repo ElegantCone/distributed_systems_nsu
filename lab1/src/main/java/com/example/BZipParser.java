@@ -44,6 +44,8 @@ public class BZipParser implements AutoCloseable{
                     StartElement startElement = event.asStartElement();
                     if (startElement.getName().getLocalPart().equals("node")) {
                         processEditors(startElement, editsMap);
+                    }
+                    if (startElement.getName().getLocalPart().equals("tag")) {
                         processTags(startElement, uniqueTags);
                     }
                 }
@@ -59,15 +61,18 @@ public class BZipParser implements AutoCloseable{
 
     private void processTags(StartElement startElement, Map<String, Integer> uniqueTags) {
         Iterator<Attribute> tags = startElement.getAttributes();
-        while (tags.hasNext()) {
-            Attribute tag = tags.next();
-            uniqueTags.merge(String.valueOf(tag.getName()), 1, Integer::sum);
+        var key = startElement.getAttributeByName(new QName("k"));
+        var value = startElement.getAttributeByName(new QName("v"));
+        if (key != null && key.getValue().equals("name") && value != null) {
+            uniqueTags.merge(value.getValue(), 1, Integer::sum);
         }
     }
 
     private void processEditors(StartElement startElement, Map<String, Integer> editors) {
         Attribute user = startElement.getAttributeByName(new QName("user"));
-        editors.merge(user.getValue(), 1, Integer::sum);
+        if (user != null) {
+            editors.merge(user.getValue(), 1, Integer::sum);
+        }
     }
 
     private HashMap<String, Integer> sortByValues(Map<String, Integer> map) {
@@ -87,7 +92,6 @@ public class BZipParser implements AutoCloseable{
     public void close() throws Exception {
         if (isReader != null) {
             isReader.close();
-            LOGGER.info("Archive closed");
         }
     }
 }
