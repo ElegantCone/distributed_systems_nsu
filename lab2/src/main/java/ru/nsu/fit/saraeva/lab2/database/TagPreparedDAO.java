@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 @Getter
 public class TagPreparedDAO implements ITagDAO {
-    private final PreparedStatement statement;
+    private PreparedStatement statement;
     private static final String INSERT =
             "INSERT INTO tags (node_id, k, v) VALUES (?, ?, ?)";
 
@@ -20,7 +20,7 @@ public class TagPreparedDAO implements ITagDAO {
     public void prepareStatement(Tag tag, BigInteger nodeId) throws SQLException {
         statement.setLong(1, nodeId.longValue());
         statement.setString(2, tag.getK());
-        statement.setString(3, tag.getV());
+        statement.setString(3, tag.getV().replace("'", ""));
     }
 
     @Override

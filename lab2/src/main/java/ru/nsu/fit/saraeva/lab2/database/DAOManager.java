@@ -15,9 +15,9 @@ public class DAOManager {
 
     public static DAOManager manager;
 
-    private final INodeDAO node;
-    private final ITagDAO tag;
-    private final DBConnection connection;
+    private INodeDAO node;
+    private ITagDAO tag;
+    private DBConnection connection;
 
     public DAOManager(DAOType type) throws SQLException, IOException {
         manager = this;

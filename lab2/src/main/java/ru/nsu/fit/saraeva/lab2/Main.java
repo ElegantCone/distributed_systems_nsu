@@ -18,18 +18,18 @@ public class Main {
     private static final String FILENAME = "RU-NVS.osm.bz2";
     private static final Logger logger = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) {
-        try {
-            CompressorInputStream compressorInputStream = new CompressorStreamFactory().createCompressorInputStream(CompressorStreamFactory.BZIP2, new BufferedInputStream(new FileInputStream(FILENAME)));
+    public static void main(String[] args) throws Exception {
+        CompressorInputStream compressorInputStream = new CompressorStreamFactory().createCompressorInputStream(CompressorStreamFactory.BZIP2, new BufferedInputStream(new FileInputStream(FILENAME)));
 
-            long start = System.nanoTime();
-            new DAOManager(DAOManager.DAOType.valueOf(args[0]));
-            Statistics statistics = new Statistics(compressorInputStream);
-            logger.info(MessageFormat.format(LoggerMessages.TIMER_MESSAGE.getMessage(), (System.nanoTime() - start) * 0.000000001));
-            DAOManager.manager.close();
-        } catch (Exception e) {
-            logger.error(e.getCause());
-        }
+        long start = System.nanoTime();
+        new DAOManager(DAOManager.DAOType.valueOf(args[0]));
+        Statistics statistics = new Statistics(compressorInputStream);
+        double time = (System.nanoTime() - start) * 0.000000001;
+        int rowsPerSecond = (int) ((statistics.getUsers().size() + statistics.getTagNodes().size()) / time);
+        logger.info(MessageFormat.format(LoggerMessages.TIMER_MESSAGE.getMessage(), (System.nanoTime() - start) * 0.000000001));
+        System.out.println(statistics.getUsers());
+        System.out.println(statistics.getTagNodes());
+        DAOManager.manager.close();
 
     }
 }

@@ -30,7 +30,7 @@ public class NodePreparedDAO implements INodeDAO {
 
     protected void prepareStatement(Node node) throws SQLException {
         statement.setLong(1, node.getId().longValue());
-        statement.setString(2, node.getUser().replace("'", "\\'"));
+        statement.setString(2, node.getUser().replace("'", ""));
         statement.setDouble(3, node.getLon());
         statement.setDouble(4, node.getLat());
     }

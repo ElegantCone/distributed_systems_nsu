@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.text.MessageFormat;
 
 public class TagRawDAO implements ITagDAO {
-    private final Statement statement;
-    private static final String INSERT =
+    private Statement statement;
+    private final String INSERT =
             "INSERT INTO tags (node_id, k, v) VALUES ('";
 
     public TagRawDAO(DBConnection connection) throws SQLException {
@@ -18,6 +18,6 @@ public class TagRawDAO implements ITagDAO {
 
     @Override
     public void insertTag(Tag tag, BigInteger nodeId) throws SQLException {
-        statement.execute(INSERT + nodeId + "', '" + tag.getK() + "', '" + tag.getV() + "')");
+        statement.execute(INSERT + nodeId + "', '" + tag.getK() + "', '" + tag.getV().replace("'", "") + "')");
     }
 }

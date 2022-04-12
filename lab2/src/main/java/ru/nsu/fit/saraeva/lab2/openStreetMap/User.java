@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class User {
-    private final String name;
-    private final int changeCount;
+    private String name;
+    private int changeCount;
 
     public User(String name, int changeCount) {
         this.name = name;

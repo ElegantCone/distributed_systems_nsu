@@ -3,6 +3,7 @@ package ru.nsu.fit.saraeva.lab2.openStreetMap;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
 import ru.nsu.fit.saraeva.lab2.database.DAOManager;
 import ru.nsu.fit.saraeva.lab2.enums.LoggerMessages;
 import ru.nsu.fit.saraeva.lab2.generated.Node;
@@ -10,6 +11,7 @@ import ru.nsu.fit.saraeva.lab2.generated.Tag;
 import ru.nsu.fit.saraeva.lab2.parser.JAXBParser;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -23,17 +25,19 @@ public class Statistics {
     private XMLStreamReader reader;
 
     @Getter
-    private final List<User> users;
+    private List<User> users;
 
     @Getter
-    private final Map<String, Integer> tagNodes = new HashMap<>();
+    private Map<String, Integer> tagNodes = new HashMap<>();
 
-    public Statistics(InputStream inputStream) throws XMLStreamException, JAXBException {
-        reader = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+    public Statistics(InputStream inputStream) throws XMLStreamException, JAXBException, SAXException {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, false);
+        reader = factory.createXMLStreamReader(inputStream);
         JAXBParser parser = new JAXBParser();
         Map<String, Integer> usersMap = new HashMap<>();
         logger.info(LoggerMessages.PARSING_STARTED.getMessage());
-        parser.parseXML(reader, Node.class, node -> {
+        parser.parseXML(reader, node -> {
             usersMap.put(node.getUser(), (usersMap.get(node.getUser()) == null ? 0 : usersMap.get(node.getUser()) + 1));
             List<Tag> tags = node.getTag();
             if (tags != null) {
