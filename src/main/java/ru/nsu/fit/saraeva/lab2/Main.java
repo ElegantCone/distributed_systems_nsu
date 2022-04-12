@@ -24,7 +24,8 @@ public class Main {
         long start = System.nanoTime();
         new DAOManager(DAOManager.DAOType.valueOf(args[0]));
         Statistics statistics = new Statistics(compressorInputStream);
-        logger.info(MessageFormat.format(LoggerMessages.TIMER_MESSAGE.getMessage(), (System.nanoTime() - start) * 0.000000001));
+        double time = (System.nanoTime() - start) * 0.000000001;
+        logger.info(MessageFormat.format(LoggerMessages.TIMER_MESSAGE.getMessage(), time));
         System.out.println(statistics.getUsers());
         System.out.println(statistics.getTagNodes());
         DAOManager.manager.close();
