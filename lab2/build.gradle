@@ -1,0 +1,59 @@
+plugins {
+    id 'application'
+    id 'com.intershop.gradle.jaxb' version '4.4.1'
+}
+
+group 'distributed_systems_nsu'
+version '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    jaxbext
+}
+
+application {
+    mainClassName='ru.nsu.fit.saraeva.lab2.Main'
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+
+    implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.20'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
+    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.9'
+    implementation group: 'javax.xml.stream', name: 'stax-api', version: '1.0-2'
+
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.2'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
+    jaxb 'com.sun.xml.bind:jaxb-core:2.2.11'
+    jaxb 'com.sun.xml.bind:jaxb-xjc:2.2.11'
+    jaxb 'com.sun.xml.bind:jaxb-impl:2.2.11'
+    jaxb 'javax.xml.bind:jaxb-api:2.2.11'
+    jaxbext 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
+
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
+}
+
+jaxb {
+    javaGen {
+        name {
+            packageName = 'ru.nsu.fit.saraeva.lab2.generated'
+            outputDir = file('./src/main/java')
+            schema = file('./src/main/resources/OSMSchema.xsd')
+        }
+    }
+}
