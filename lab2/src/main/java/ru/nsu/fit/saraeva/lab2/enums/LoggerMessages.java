@@ -6,7 +6,7 @@ public enum LoggerMessages {
     TAG_PARSING_PROCESS("Parsing tags: {0}"),
     PARSING_STARTED("Parsing started"),
     PARSING_FINISHED("Parsing finished"),
-    TIMER_MESSAGE("Writing speed: {0} rows per second");
+    TIMER_MESSAGE("Time: {0} seconds");
 
     @Getter
     private final String message;
