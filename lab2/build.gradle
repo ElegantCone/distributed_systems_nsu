@@ -6,6 +6,7 @@ buildscript {
 
 plugins {
     id 'application'
+    id('org.unbroken-dome.xjc') version '2.0.0'
 }
 
 apply plugin: 'com.github.jacobono.jaxb'
@@ -53,7 +54,7 @@ dependencies {
 
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
 }
-
+/*
 task generateJavaClasses {
     System.setProperty('javax.xml.accessExternalSchema', 'all')
     def jaxbTargetDir = file("src/main/java/")
@@ -71,4 +72,4 @@ task generateJavaClasses {
                 schema: 'src/main/resources/OSMSchema.xsd'
         )
     }
-}
+}*/
